@@ -1,4 +1,3 @@
-// app/api/check-user/route.ts
 import { checkUser } from "@/lib/checkUser";
 import { NextResponse } from "next/server";
 

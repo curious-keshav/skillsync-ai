@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { dark } from '@clerk/themes'
+import { Toaster } from "@/components/ui/sonner";
 
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Header />
               <main className="min-h-screen">{children}</main>
+              <Toaster richColors/>
               <Footer />
             </ThemeProvider>
           ) : null}

@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {mounted ? (
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Header />
-              <main className="min-h-screen">{children}</main>
+              <main className="min-h-screen sm:px-8 md:px-12 lg:px-16 px-4">{children}</main>
               <Toaster richColors/>
               <Footer />
             </ThemeProvider>

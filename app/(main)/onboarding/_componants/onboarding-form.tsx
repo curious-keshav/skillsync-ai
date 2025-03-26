@@ -22,10 +22,10 @@ const OnboardingForm = ({ industries }: { industries: any }) => {
     const router = useRouter();
 
     const {
-        loading:updateLoading,
-        fn:updateUserFn,
-        data:updateResult,
-    } =useFetch(updateUser);
+        loading: updateLoading,
+        fn: updateUserFn,
+        data: updateResult,
+    } = useFetch(updateUser);
     const {
         register,
         handleSubmit,
@@ -38,26 +38,26 @@ const OnboardingForm = ({ industries }: { industries: any }) => {
 
     const watchIndustry = watch("industry");
 
-    const onSubmit = async (values:any) => {
-        try{
-            const formattedIndustry = `${values?.industry}-${values.subIndustry.toLowerCase().replace(/ /g,"-")}`;
+    const onSubmit = async (values: any) => {
+        try {
+            const formattedIndustry = `${values?.industry}-${values.subIndustry.toLowerCase().replace(/ /g, "-")}`;
 
             await updateUserFn({
                 ...values,
                 industry: formattedIndustry,
             });
-        }catch(error:any){
-             console.log("Onboarding Error:", error);
+        } catch (error: any) {
+            console.log("Onboarding Error:", error);
         }
     }
 
-    useEffect(()=>{
-        if(updateResult?.success && !updateLoading){
+    useEffect(() => {
+        if (updateResult?.success && !updateLoading) {
             toast.success("Profile completed successfully");
             router.push("/dashboard");
             router.refresh();
         }
-    },updateResult,updateLoading);
+    }, [updateResult, updateLoading]);
 
     return (
         <div className='flex items-center justify-center bg-background'>
@@ -165,10 +165,10 @@ const OnboardingForm = ({ industries }: { industries: any }) => {
                             {
                                 updateLoading ? (
                                     <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
-                                    Saving...
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Saving...
                                     </>
-                                ):(
+                                ) : (
                                     "Complete Profile"
                                 )
                             }

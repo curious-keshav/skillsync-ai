@@ -44,7 +44,7 @@ export default function QuizList({ assessments }: { assessments:any }) {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {assessments?.map((assessment, i) => (
+            {assessments?.map((assessment:any, i:number) => (
               <Card
                 key={assessment.id}
                 className="cursor-pointer hover:bg-muted/50 transition-colors"

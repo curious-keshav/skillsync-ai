@@ -58,7 +58,7 @@ export async function generateQuiz() {
   }
 }
 
-export async function saveQuizResult(questions, answers, score) {
+export async function saveQuizResult(questions:any, answers:any, score:any) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
@@ -68,7 +68,7 @@ export async function saveQuizResult(questions, answers, score) {
 
   if (!user) throw new Error("User not found");
 
-  const questionResults = questions.map((q, index) => ({
+  const questionResults = questions.map((q:any, index:number) => ({
     question: q.question,
     answer: q.correctAnswer,
     userAnswer: answers[index],

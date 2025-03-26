@@ -150,7 +150,7 @@ export default function Quiz() {
           value={answers[currentQuestion]}
           className="space-y-2"
         >
-          {question.options.map((option, index) => (
+          {question.options.map((option:any, index:any) => (
             <div key={index} className="flex items-center space-x-2">
               <RadioGroupItem value={option} id={`option-${index}`} />
               <Label htmlFor={`option-${index}`}>{option}</Label>

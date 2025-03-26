@@ -7,7 +7,7 @@ export default function StatsCards({ assessments }:{assessments:any}) {
   const getAverageScore = () => {
     if (!assessments?.length) return 0;
     const total = assessments.reduce(
-      (sum, assessment) => sum + assessment.quizScore,
+      (sum:any, assessment:any) => sum + assessment.quizScore,
       0
     );
     return (total / assessments.length).toFixed(1);
@@ -21,7 +21,7 @@ export default function StatsCards({ assessments }:{assessments:any}) {
   const getTotalQuestions = () => {
     if (!assessments?.length) return 0;
     return assessments.reduce(
-      (sum, assessment) => sum + assessment.questions.length,
+      (sum:any, assessment:any) => sum + assessment.questions.length,
       0
     );
   };

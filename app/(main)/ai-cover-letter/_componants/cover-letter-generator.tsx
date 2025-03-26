@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -21,6 +22,12 @@ import { coverLetterSchema } from "@/app/lib/schema";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface CoverLetterForm {
+  companyName: string;
+  jobTitle: string;
+  jobDescription: string;
+}
+
 export default function CoverLetterGenerator() {
   const router = useRouter();
 
@@ -29,7 +36,7 @@ export default function CoverLetterGenerator() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<CoverLetterForm>({
     resolver: zodResolver(coverLetterSchema),
   });
 
@@ -45,12 +52,12 @@ export default function CoverLetterGenerator() {
       router.push(`/ai-cover-letter/${generatedLetter.id}`);
       reset();
     }
-  }, [generatedLetter]);
+  }, [generatedLetter, router, reset]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: CoverLetterForm) => {
     try {
       await generateLetterFn(data);
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message || "Failed to generate cover letter");
     }
   };
@@ -61,12 +68,11 @@ export default function CoverLetterGenerator() {
         <CardHeader>
           <CardTitle>Job Details</CardTitle>
           <CardDescription>
-            Provide information about the position you're applying for
+            Provide information about the position you&apos;re applying for
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Form fields remain the same */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="companyName">Company Name</Label>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -25,7 +27,7 @@ import { entriesToMarkdown } from "@/app/lib/helper";
 import { resumeSchema } from "@/app/lib/schema";
 import html2pdf from "html2pdf.js/dist/html2pdf.min.js";
 
-export default function ResumeBuilder({ initialContent }) {
+export default function ResumeBuilder({ initialContent }:{ initialContent:any }) {
   const [activeTab, setActiveTab] = useState("edit");
   const [previewContent, setPreviewContent] = useState(initialContent);
   const { user } = useUser();
@@ -56,14 +58,12 @@ export default function ResumeBuilder({ initialContent }) {
     error: saveError,
   } = useFetch(saveResume);
 
-  // Watch form fields for preview updates
   const formValues = watch();
 
   useEffect(() => {
     if (initialContent) setActiveTab("preview");
   }, [initialContent]);
 
-  // Update preview content when form values change
   useEffect(() => {
     if (activeTab === "edit") {
       const newContent = getCombinedContent();
@@ -71,7 +71,6 @@ export default function ResumeBuilder({ initialContent }) {
     }
   }, [formValues, activeTab]);
 
-  // Handle save result
   useEffect(() => {
     if (saveResult && !isSaving) {
       toast.success("Resume saved successfully!");
@@ -132,7 +131,7 @@ export default function ResumeBuilder({ initialContent }) {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:any) => {
     try {
       const formattedContent = previewContent
         .replace(/\n/g, "\n")

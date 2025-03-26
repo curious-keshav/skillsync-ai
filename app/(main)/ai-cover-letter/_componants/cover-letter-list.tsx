@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -25,16 +26,16 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteCoverLetter } from "@/actions/cover-letter";
 
-export default function CoverLetterList({ coverLetters }) {
+export default function CoverLetterList({ coverLetters }: { coverLetters:any }) {
   const router = useRouter();
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id:any) => {
     try {
       await deleteCoverLetter(id);
       toast.success("Cover letter deleted successfully!");
       router.refresh();
-    } catch (error) {
-      toast.error(error.message || "Failed to delete cover letter");
+    } catch (error:any) {
+      toast.error(error?.message || "Failed to delete cover letter");
     }
   };
 
@@ -53,7 +54,7 @@ export default function CoverLetterList({ coverLetters }) {
 
   return (
     <div className="space-y-4">
-      {coverLetters.map((letter) => (
+      {coverLetters.map((letter:any) => (
         <Card key={letter.id} className="group relative ">
           <CardHeader>
             <div className="flex items-start justify-between">

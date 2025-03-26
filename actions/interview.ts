@@ -106,7 +106,6 @@ export async function saveQuizResult(questions, answers, score) {
       console.log(improvementTip);
     } catch (error) {
       console.error("Error generating improvement tip:", error);
-      // Continue without i mprovement tip if generation fails
     }
   }
 

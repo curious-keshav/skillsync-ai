@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCoverLetter } from "@/actions/cover-letter";
 import CoverLetterPreview from "../_componants/cover-letter-preview";
 
-export default async function EditCoverLetterPage({ params }) {
+export default async function EditCoverLetterPage({ params }:{params:any}) {
   const { id } = await params;
   const coverLetter = await getCoverLetter(id);
 

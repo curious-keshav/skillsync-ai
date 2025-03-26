@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { db } from "@/lib/prisma";
@@ -7,7 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export async function generateCoverLetter(data) {
+export async function generateCoverLetter(data:any) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
@@ -59,7 +60,7 @@ export async function generateCoverLetter(data) {
     });
 
     return coverLetter;
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error generating cover letter:", error.message);
     throw new Error("Failed to generate cover letter");
   }
@@ -85,7 +86,7 @@ export async function getCoverLetters() {
   });
 }
 
-export async function getCoverLetter(id) {
+export async function getCoverLetter(id:any) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
@@ -103,7 +104,7 @@ export async function getCoverLetter(id) {
   });
 }
 
-export async function deleteCoverLetter(id) {
+export async function deleteCoverLetter(id:any) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 

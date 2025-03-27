@@ -27,7 +27,7 @@ const formatDisplayDate = (dateString: any) => {
     return format(date, "MMM yyyy");
 };
 
-export function EntryForm({ type, entries, onChange }) {
+export function EntryForm({ type, entries, onChange }:{ type:any, entries:any, onChange:any }) {
     const [isAdding, setIsAdding] = useState(false);
 
     const {
@@ -65,7 +65,7 @@ export function EntryForm({ type, entries, onChange }) {
     });
 
     const handleDelete = (index: any) => {
-        const newEntries = entries.filter((_, i) => i !== index);
+        const newEntries = entries.filter((_:any, i:any) => i !== index);
         onChange(newEntries);
     };
 
@@ -102,7 +102,7 @@ export function EntryForm({ type, entries, onChange }) {
     return (
         <div className="space-y-4">
             <div className="space-y-4">
-                {entries.map((item, index) => (
+                {entries.map((item:any, index:any) => (
                     <Card key={index}>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 ">
                             <CardTitle className="text-sm font-medium">
@@ -142,7 +142,7 @@ export function EntryForm({ type, entries, onChange }) {
                                 <Input
                                     placeholder="Title/Position"
                                     {...register("title")}
-                                    error={errors.title}
+                                    // error={errors.title}
                                 />
                                 {errors.title && (
                                     <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -152,7 +152,7 @@ export function EntryForm({ type, entries, onChange }) {
                                 <Input
                                     placeholder="Organization/Company"
                                     {...register("organization")}
-                                    error={errors.organization}
+                                    // error={errors.organization}
                                 />
                                 {errors.organization && (
                                     <p className="text-sm text-red-500">
@@ -167,7 +167,7 @@ export function EntryForm({ type, entries, onChange }) {
                                 <Input
                                     type="month"
                                     {...register("startDate")}
-                                    error={errors.startDate}
+                                    // error={errors.startDate}
                                 />
                                 {errors.startDate && (
                                     <p className="text-sm text-red-500">
@@ -180,7 +180,7 @@ export function EntryForm({ type, entries, onChange }) {
                                     type="month"
                                     {...register("endDate")}
                                     disabled={current}
-                                    error={errors.endDate}
+                                    // error={errors.endDate}
                                 />
                                 {errors.endDate && (
                                     <p className="text-sm text-red-500">
@@ -210,7 +210,7 @@ export function EntryForm({ type, entries, onChange }) {
                                 placeholder={`Description of your ${type.toLowerCase()}`}
                                 className="h-32"
                                 {...register("description")}
-                                error={errors.description}
+                                // error={errors.description}
                             />
                             {errors.description && (
                                 <p className="text-sm text-red-500">

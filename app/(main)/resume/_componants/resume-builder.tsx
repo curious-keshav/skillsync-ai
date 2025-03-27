@@ -14,7 +14,7 @@ import {
   Save,
 } from "lucide-react";
 import { toast } from "sonner";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { PreviewType } from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +25,7 @@ import useFetch from "@/hooks/use-fetch";
 import { useUser } from "@clerk/nextjs";
 import { entriesToMarkdown } from "@/app/lib/helper";
 import { resumeSchema } from "@/app/lib/schema";
-import html2pdf from "html2pdf.js/dist/html2pdf.min.js";
+import html2pdf from "html2pdf.js";
 
 export default function ResumeBuilder({ initialContent }:{ initialContent:any }) {
   const [activeTab, setActiveTab] = useState("edit");
@@ -90,7 +90,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
     if (contactInfo.twitter) parts.push(`🐦 [Twitter](${contactInfo.twitter})`);
 
     return parts.length > 0
-      ? `## <div align="center">${user.fullName}</div>
+      ? `## <div align="center">${user?.fullName}</div>
         \n\n<div align="center">\n\n${parts.join(" | ")}\n\n</div>`
       : "";
   };
@@ -203,7 +203,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...register("contactInfo.email")}
                     type="email"
                     placeholder="your@email.com"
-                    error={errors.contactInfo?.email}
+                    // error={errors.contactInfo?.email}
                   />
                   {errors.contactInfo?.email && (
                     <p className="text-sm text-red-500">
@@ -266,7 +266,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...field}
                     className="h-32"
                     placeholder="Write a compelling professional summary..."
-                    error={errors.summary}
+                    // error={errors.summary}
                   />
                 )}
               />
@@ -286,7 +286,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...field}
                     className="h-32"
                     placeholder="List your key skills..."
-                    error={errors.skills}
+                    // error={errors.skills}
                   />
                 )}
               />
@@ -397,8 +397,8 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
               value={previewContent}
               onChange={setPreviewContent}
               height={800}
-              preview={resumeMode}
-            />
+              preview={["live", "edit", "preview"].includes(resumeMode) ? (resumeMode as PreviewType) : "preview"} 
+              />
           </div>
           <div className="hidden">
             <div id="resume-pdf">

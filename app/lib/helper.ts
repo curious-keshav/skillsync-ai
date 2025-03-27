@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function entriesToMarkdown(entries, type) {
+export function entriesToMarkdown(entries:any, type:any) {
     if (!entries?.length) return "";
   
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Trophy, CheckCircle2, XCircle } from "lucide-react";
@@ -5,25 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-interface Question {
-  question: string;
-  userAnswer: string;
-  answer: string;
-  isCorrect: boolean;
-  explanation: string;
-}
 
-interface QuizResultProps {
-  result?: {
-    quizScore: number;
-    improvementTip?: string;
-    questions: Question[];
-  };
-  hideStartNew?: boolean;
-  onStartNew?: () => void;
-}
-
-export default function QuizResult({ result, hideStartNew = false, onStartNew }: QuizResultProps) {
+export default function QuizResult({ result, hideStartNew = false, onStartNew }: { result: any, hideStartNew: any, onStartNew: any }) {
   if (!result) return null;
 
   return (
@@ -51,7 +35,7 @@ export default function QuizResult({ result, hideStartNew = false, onStartNew }:
         {/* Questions Review */}
         <div className="space-y-4">
           <h3 className="font-medium">Question Review</h3>
-          {result.questions.map((q, index) => (
+          {result.questions.map((q: any, index: number) => (
             <div key={index} className="border rounded-lg p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium">{q.question}</p>

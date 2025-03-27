@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { dark } from '@clerk/themes'
 import { Toaster } from "@/components/ui/sonner";
 
-
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -23,6 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        <title>SkillSyncAI</title>
+        <link rel="icon" href="skillsyncai.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="skillsyncai.ico" type="image/x-icon"/>
+      </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <ClerkProvider appearance={{
           baseTheme: dark

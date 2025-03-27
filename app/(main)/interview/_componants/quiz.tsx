@@ -108,7 +108,7 @@ export default function Quiz() {
   if (resultData) {
     return (
       <div className="mx-2">
-        <QuizResult result={resultData} onStartNew={startNewQuiz} />
+        <QuizResult result={resultData} onStartNew={startNewQuiz} hideStartNew={false} />
       </div>
     );
   }

@@ -17,7 +17,6 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
 const OnboardingForm = ({ industries }: { industries: any }) => {
-    console.log(industries);
     const [selectedIndustry, setSelectedIndustry] = useState<any>(null);
     const router = useRouter();
 

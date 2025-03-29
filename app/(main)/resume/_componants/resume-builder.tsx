@@ -27,11 +27,13 @@ import { entriesToMarkdown } from "@/app/lib/helper";
 import { resumeSchema } from "@/app/lib/schema";
 import html2pdf from "html2pdf.js";
 
-export default function ResumeBuilder({ initialContent }:{ initialContent:any }) {
+
+export default function ResumeBuilder({ initialContent }: { initialContent: any }) {
   const [activeTab, setActiveTab] = useState("edit");
   const [previewContent, setPreviewContent] = useState(initialContent);
   const { user } = useUser();
   const [resumeMode, setResumeMode] = useState("preview");
+  // console.log(previewContent, "previewContent")
 
   const {
     control,
@@ -113,29 +115,56 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
 
   const generatePDF = async () => {
     setIsGenerating(true);
-    try {
-      const element = document.getElementById("resume-pdf");
-      const opt = {
-        margin: [15, 15],
-        filename: "resume.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      };
+    // try {
+    //   const element = document.getElementById("resume-pdf");
+    //   const opt = {
+    //     margin: [15, 15],
+    //     filename: "resume.pdf",
+    //     image: { type: "jpeg", quality: 0.98 },
+    //     html2canvas: { scale: 2 },
+    //     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    //   };
 
-      await html2pdf().set(opt).from(element).save();
+    //   await html2pdf().set(opt).from(element).save();
+    // } catch (error) {
+    //   console.error("PDF generation error:", error);
+    // } finally {
+    //   setIsGenerating(false);
+    // }
+
+    try {
+      const response = await fetch("/api/generate-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: previewContent }), 
+      });
+  
+      console.log(await response,"kes")
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+  
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } catch (error) {
-      console.error("PDF generation error:", error);
-    } finally {
-      setIsGenerating(false);
-    }
+      console.error("🚨 PDF generation error:", error);
+    }finally {
+        setIsGenerating(false);
+      }
   };
 
-  const onSubmit = async (data:any) => {
+  const onSubmit = async (data: any) => {
     try {
       const formattedContent = previewContent
         .replace(/\n/g, "\n")
-        .replace(/\n\s*\n/g, "\n\n") 
+        .replace(/\n\s*\n/g, "\n\n")
         .trim();
 
       await saveResumeFn(previewContent);
@@ -202,7 +231,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...register("contactInfo.email")}
                     type="email"
                     placeholder="your@email.com"
-                    // error={errors.contactInfo?.email}
+                  // error={errors.contactInfo?.email}
                   />
                   {errors.contactInfo?.email && (
                     <p className="text-sm text-red-500">
@@ -265,7 +294,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...field}
                     className="h-32"
                     placeholder="Write a compelling professional summary..."
-                    // error={errors.summary}
+                  // error={errors.summary}
                   />
                 )}
               />
@@ -285,7 +314,7 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
                     {...field}
                     className="h-32"
                     placeholder="List your key skills..."
-                    // error={errors.skills}
+                  // error={errors.skills}
                   />
                 )}
               />
@@ -396,8 +425,8 @@ export default function ResumeBuilder({ initialContent }:{ initialContent:any })
               value={previewContent}
               onChange={setPreviewContent}
               height={800}
-              preview={["live", "edit", "preview"].includes(resumeMode) ? (resumeMode as PreviewType) : "preview"} 
-              />
+              preview={["live", "edit", "preview"].includes(resumeMode) ? (resumeMode as PreviewType) : "preview"}
+            />
           </div>
           <div className="hidden">
             <div id="resume-pdf">

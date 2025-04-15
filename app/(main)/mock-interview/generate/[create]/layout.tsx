@@ -4,7 +4,7 @@ import { BarLoader } from "react-spinners"
 
 const Layout = ({ children }: { children: any }) => {
     return (
-        <div className='px-5'>
+        <div className=''>
             <Suspense fallback={<BarLoader className='mt-4' width={"100%"} color="gray" />}>
                 {children}
             </Suspense>

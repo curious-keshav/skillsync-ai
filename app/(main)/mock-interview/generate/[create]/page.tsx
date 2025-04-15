@@ -12,9 +12,8 @@ const CreateEditPage = () => {
   const { id } = useParams();
   const [webCamEnabled, setWebCamEnabled] = useState(false);
 
-  console.log("Interview ID:", id);
-  console.log("Webcam State:", webCamEnabled);
-
+  console.log(id);
+  
   return (
     <>
       <div className="grid-background absolute inset-0 -z-10"></div>
@@ -31,7 +30,7 @@ const CreateEditPage = () => {
             <h2 className="text-4xl md:text-5xl gradient-title font-sans">
               Let&apos;s get started
             </h2>
-            <Button variant="outline" className="h-12 !bg-[#488dfc] !border-3 shadow-lg !border-[#154da67a] hover:!bg-[#488dfcd2] transition ">
+            <Button variant="outline" disabled className="h-12 !bg-[#488dfc] !border-3 shadow-lg !border-[#154da67a] hover:!bg-[#488dfcd2] transition ">
               <PhoneCall className="h-4 w-4" />
               <span className="hidden md:block">Start your AI Interview</span>
             </Button>

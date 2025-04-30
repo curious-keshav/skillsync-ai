@@ -3,18 +3,18 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { generateAIInsights } from "./dashboard";
 
 export async function updateUser(data: any) {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-  
-    const user = await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
-  
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
 
-  if (!user) throw new Error("User Not Found");
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("User not found");
 
   try {
     const result = await db.$transaction(
@@ -26,18 +26,17 @@ export async function updateUser(data: any) {
         });
 
         if (!industryInsight) {
-            const insights = await generateAIInsights(data.industry);
-  
-            industryInsight = await db.industryInsight.create({
-              data: {
-                industry: data.industry,
-                ...insights,
-                nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-              },
-            });
-          }
+          const insights = await generateAIInsights(data.industry);
 
-        // update the user
+          industryInsight = await db.industryInsight.create({
+            data: {
+              industry: data.industry,
+              ...insights,
+              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            },
+          });
+        }
+
         const updatedUser = await tx.user.update({
           where: {
             id: user.id,
@@ -53,20 +52,20 @@ export async function updateUser(data: any) {
         return { updatedUser, industryInsight };
       },
       {
-        timeout: 100000,
+        timeout: 10000,
       }
     );
 
-    return {success:true, ...result};
-
+    revalidatePath("/");
+    return result.updatedUser;
   } catch (error: any) {
-    console.log("Error updating user and industry: ", error.message);
-    throw new Error("Failed to update profile" + error.message);
+    console.error("Error updating user and industry:", error.message);
+    throw new Error("Failed to update profile");
   }
 }
 
 export async function getUserOnboardingStatus() {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({

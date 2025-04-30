@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export const generateAIInsights = async (industry:any) => {
+export const generateAIInsights = async (industry: any) => {
   const prompt = `
           Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:
           {
@@ -49,6 +49,11 @@ export async function getIndustryInsights() {
   });
 
   if (!user) throw new Error("User not found");
+
+  if (!user.industry) {
+    console.log("User industry is missing.");
+    user.industry = "default-industry"; 
+  }
 
   if (!user.industryInsight) {
     const insights = await generateAIInsights(user.industry);
